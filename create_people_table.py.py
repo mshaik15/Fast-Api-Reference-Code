@@ -4,7 +4,14 @@ import sqlite3
 print(sqlite3.sqlite_version) # Cheeck if SQLite is in project
 
 # An engine is used to connect to a database
-engine = create_engine("sqlite:///mydatabase.db", echo=True) # Connection script AKA database URL
+# SQLite3
+# engine = create_engine("sqlite:///mydatabase.db", echo=True) # Connection script AKA database URL
+
+# Postgres - I already created the database inside of psql
+engine = create_engine(
+    'postgresql+psycopg2://postgres:<your_actual_password>@localhost:5432/sqltutorial',
+    echo=True
+)
 
 """
 Connections just send raw SQL to the database, it doesnt track python objects
