@@ -61,27 +61,30 @@ things_data = [
     {'owner': name_to_id['Kyle'], 'description': 'Mouse', 'value': 10.00},
     {'owner': name_to_id['Daniel'], 'description': 'Speaker', 'value': 100.00},
     {'owner': name_to_id['Steve'], 'description': 'Banana', 'value': 0.80},
-    # {'owner': name_to_id['Carl'], 'description': 'Iphone', 'value': 800.00}
+    {'owner': name_to_id['Carl'], 'description': 'Iphone', 'value': 800.00}
 ]
 conn.execute(things.insert(), things_data)
 conn.commit()
 
-print("\nRegular Join")
-join_statement = people.join(things, people.c.id == things.c.owner)
-select_statement = select(people.c.name, things.c.description).select_from(join_statement)
+# print("\nRegular Join")
+# join_statement = people.join(things, people.c.id == things.c.owner)
+# select_statement = select(people.c.name, things.c.description).select_from(join_statement)
 
-results = conn.execute(select_statement)
+# results = conn.execute(select_statement)
+# for row in results.fetchall():
+    # print(row)
+
+# print("\nOuter Join")
+# outer_join_statement = people.outerjoin(things, people.c.id == things.c.owner)
+# outer_select_statement = select(people.c.name, things.c.description).select_from(outer_join_statement)
+
+# outer_results = conn.execute(outer_select_statement)
+# for row in outer_results.fetchall():
+    # print(row)
+
+
+group_by_statement = things.select().with_only_columns(things.c.owner, func.sum(things.c.value)).group_by(things.c.owner)
+results = conn.execute(group_by_statement)
+
 for row in results.fetchall():
     print(row)
-
-print("\nOuter Join")
-outer_join_statement = people.outerjoin(things, people.c.id == things.c.owner)
-outer_select_statement = select(people.c.name, things.c.description).select_from(outer_join_statement)
-
-outer_results = conn.execute(outer_select_statement)
-for row in outer_results.fetchall():
-    print(row)
-
-
-group_by_statements = things.select().with_only_columns(things.c.owner, func.sum(things.c.value)).group_by(things.c.owner)
-
