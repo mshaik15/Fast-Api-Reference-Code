@@ -1,5 +1,5 @@
 # ORM Practice
-from sqlalchemy import create_engine, MetaData, Integer, Float, Column, String, ForeignKey
+from sqlalchemy import create_engine, MetaData, Integer, Float, Column, String, ForeignKey, func
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from dotenv import load_dotenv
 import os
@@ -75,3 +75,13 @@ result = session.query(Person.name, Person.age).all() # returns all persons name
 print(result)
 
 results = session.query(Thing).filter(Thing.value > 10).all() # can use filter function like so
+
+print(results)
+
+
+# Joins
+result_2 = session.query(Person.name, Thing.description).join(Thing).all()
+
+print(result_2)
+
+session.close()
